@@ -7791,8 +7791,7 @@ define('CAPI',['authAgents/SessionAuthAgent', 'authAgents/HttpBasicAuthAgent', '
         };
 
         this.storeSessionInfo = function (session) {
-            console.log(session)
-            this._storeSessionInfo({
+            authenticationAgent._storeSessionInfo({
                 name: session.name,
                 href: session._href,
                 identifier: session.identifier,

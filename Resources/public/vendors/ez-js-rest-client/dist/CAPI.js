@@ -1215,9 +1215,12 @@ define('ConnectionManager',["structures/Response", "structures/Request", "struct
             headers['X-Siteaccess'] = this._siteAccess;
         }
 
+        headers['X-Siteaccess'] = document.querySelector('meta[name="SiteAccess"]').content;
+        headers['X-CSRF-Token'] = document.querySelector('meta[name="CSRF-Token"]').content;
+
         request = new Request({
             method : method,
-            url : this._endPointUrl + url,
+            url : url,
             body : body,
             headers : headers
         });
@@ -2134,7 +2137,7 @@ define('structures/ViewCreateStruct',[],function () {
             type = "ContentQuery";
         }
         /**
-         * Holds the view type 
+         * Holds the view type
          *
          * @property _type
          * @protected
@@ -2407,15 +2410,15 @@ var objectHelper = (function () {
     function isString (value) {
         return Object.prototype.toString.apply(value) === '[object String]';
     }
-    
+
     function isNumber (value) {
         return Object.prototype.toString.apply(value) === '[object Number]';
     }
-    
+
     function isBoolean (value) {
         return Object.prototype.toString.apply(value) === '[object Boolean]';
     }
-    
+
     function join (arr, separator) {
         var
             result = '',
@@ -7785,6 +7788,16 @@ define('CAPI',['authAgents/SessionAuthAgent', 'authAgents/HttpBasicAuthAgent', '
                 callback = credentials;
             }
             authenticationAgent.logIn(callback);
+        };
+
+        this.storeSessionInfo = function (session) {
+            console.log(session)
+            this._storeSessionInfo({
+                name: session.name,
+                href: session._href,
+                identifier: session.identifier,
+                csrfToken: session.csrfToken,
+            });
         };
 
         /**
